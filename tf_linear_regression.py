@@ -14,9 +14,9 @@ with tf.variable_scope('linear-regression'):
 
 y_pred = tf.matmul(X, k) + b
 loss = tf.reduce_sum((y - y_pred) ** 2)
-optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(loss)
+optimizer = tf.train.GradientDescentOptimizer(100).minimize(loss)
 
-display_step = 100
+display_step = 1
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(num_steps):
@@ -28,5 +28,6 @@ with tf.Session() as sess:
         )
 
         if (i+1) % display_step == 0:
-            print 'Epoch %d: %.8f, k=%.4f, b=%.4f' % (i+1, loss_val, k_val, b_val)
+            #print 'Epoch %d: %.8f, k=%.4f, b=%.4f' % (i+1, loss_val, k_val[0], b_val[0])
+            print b_val
 
