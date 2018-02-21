@@ -49,5 +49,26 @@ class Perceptron:
         (на её основании мы потом построим интересный график)
         """
 
-        ## Этот метод необходимо реализовать
-        pass
+        answer = self.forward_pass(example)
+        diff = y - answer
+        self.b += diff
+        self.w += example * diff
+        return abs(diff)
+
+    def train_until_convergence(self, input_matrix, y, max_steps=1e8):
+        """
+        input_matrix - матрица входов размера (n, m),
+        y - вектор правильных ответов размера (n, 1) (y[i] - правильный ответ на пример input_matrix[i]),
+        max_steps - максимальное количество шагов.
+        Применяем train_on_single_example, пока не перестанем ошибаться или до умопомрачения.
+        Константа max_steps - наше понимание того, что считать умопомрачением.
+        """
+        i = 0
+        errors = 1
+        while errors and i < max_steps:
+            i += 1
+            errors = 0
+            for example, answer in zip(input_matrix, y):
+                example = example.reshape((example.size, 1))
+                error = self.train_on_single_example(example, answer)
+                errors += int(error)  # int(True) = 1, int(False) = 0, так что можно не делать if
