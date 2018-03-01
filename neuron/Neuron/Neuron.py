@@ -77,7 +77,12 @@ class Neuron:
         return 1 if abs(before - after) < eps else 0
 
     def SGD(self, X, y, batch_size, learning_rate=0.1, eps=1e-6, max_steps=200):
-        pass
+        for step in range(max_steps):
+            idx = np.random.choice(len(X), batch_size, replace=False)
+            if self.update_mini_batch(X[idx], y[idx], learning_rate, eps):
+                return 1
+
+        return 0
 
 
 def J_quadratic(neuron, X, y):
