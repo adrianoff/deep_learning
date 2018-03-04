@@ -154,3 +154,27 @@ def compute_grad_analytically(neuron, X, y, J_prime=J_quadratic_derivative):
     grad = grad.T
 
     return grad
+
+
+def compute_grad_numerically_2(neuron, X, y, J=J_quadratic, eps=10e-2):
+    """
+    Численная производная целевой функции.
+    neuron - объект класса Neuron с вертикальным вектором весов w,
+    X - вертикальная матрица входов формы (n, m), на которой считается сумма квадратов отклонений,
+    y - правильные ответы для тестовой выборки X,
+    J - целевая функция, градиент которой мы хотим получить,
+    eps - размер $\delta w$ (малого изменения весов).
+    """
+
+    w_len = len(neuron.w)
+    num_grad = np.zeros(neuron.w.shape)
+    for i in range(w_len):
+        old_wi = neuron.w[i][0]
+        neuron.w[i] = old_wi + eps
+        plus_delta = J(neuron, X, y)
+        neuron.w[i] = old_wi - eps
+        minus_delta = J(neuron, X, y)
+        neuron.w[i][0] = old_wi
+        num_grad[i][0] = (plus_delta - minus_delta) / (2 * eps)
+
+    return num_grad
