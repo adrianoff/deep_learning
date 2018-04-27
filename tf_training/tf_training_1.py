@@ -32,3 +32,10 @@ a = tf.placeholder("float")
 b = tf.placeholder("float")
 y = tf.pow(a, b)
 print(sess.run(y, feed_dict={a:2, b:2}))
+
+
+
+with tf.name_scope("test") as scope:
+    x = tf.placeholder(tf.float32)
+    f = 1 + 2 * x + tf.pow(x, 2)
+    print(sess.run(f, feed_dict={x: 10}))
